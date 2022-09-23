@@ -1,7 +1,4 @@
-# import the necessary packages
-#from imutils import paths
-#import argparse
-#import reC:\Users\Helmi Agung\darkflowquests
+
 import cv2
 import PIL
 import os
