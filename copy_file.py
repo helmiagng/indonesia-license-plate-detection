@@ -18,11 +18,9 @@ def main():
     #enter destination folder path
     dest_folder=str(input("Enter destination folder path:"))
     folder_dir=os.listdir(folder_path)
-    
-    print(f"destination size directory before coying file: {len(os.listdir(dest_folder))}")
-    
     copyfile_to_dest_folder(folder_path,dest_folder,folder_dir)
     
+    print(f"destination size directory before coying file: {len(os.listdir(dest_folder))}")
     print(f"destination size directory after coying file: {len(os.listdir(dest_folder))}")
     
 if __name__=='__main__':
