@@ -1,18 +1,30 @@
 import shutil
 import os
-def main():
-    folder_path=str(input("Enter source folder path:"))
-    dest_folder=str(input("Enter destination folder path:"))
-    folder_dir=os.listdir(folder_path)
-    for file in folder_dir:
-        src=os.path.join(folder_path,file)
-        dest=os.path.join(dest_folder,file)
+
+def copyfile_to_dest_folder(fpath,dpath,dir):
+    for file in dir:
+        src=os.path.join(fpath,file)
+        dest=os.path.join(dpath,file)
         try:
+            #copying file to destination folder
             shutil.copyfile(src,dest)
-            print(f"SUCCES:{src} copied to {dest}")
+            print(f"SUCCESS:{src} copied to {dest}")
         except Exception as e:
             print(f"ERROR:{e}")
 
+def main():
+    #enter source folder path
+    folder_path=str(input("Enter source folder path:"))
+    #enter destination folder path
+    dest_folder=str(input("Enter destination folder path:"))
+    folder_dir=os.listdir(folder_path)
+    
+    print(f"destination size directory before coying file: {len(os.listdir(dest_folder))}")
+    
+    copyfile_to_dest_folder(folder_path,dest_folder,folder_dir)
+    
+    print(f"destination size directory after coying file: {len(os.listdir(dest_folder))}")
+    
 if __name__=='__main__':
     print("COPYING FILE IN FOLDER DIRECTORY")
     main()
