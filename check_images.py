@@ -51,14 +51,16 @@ def main():
 	#enter path directory
 	image_dir_path=str(input("enter path:"))
 	images=os.listdir(image_dir_path)
-	#check size directory before deletion
-	print(f"size before deletion:{len(images)}")
 	#delete image not in .jpg format
 	images=delete_non_jpg(image_dir_path,images)
 	#read image in opencv 
 	images=check_opencv(image_dir_path,images)
 	#check size directory after deletion
 	new_size_dir=len(os.listdir(image_dir_path))
+	
+	#check size directory before deletion
+	print(f"size before deletion:{len(images)}")
+	#check size directory after deletion
 	print(f"new_size after deletion:{new_size_dir}")
 
 if __name__=='__main__':
