@@ -15,10 +15,8 @@ def first_name_of_filename(dfolder_path,fname):
 def deleting_predefined_classes(class_path):
     with open(class_path,'r+') as f:
         lines=f.readlines()
-        #deleting all content in file
         f.seek(0)
         f.truncate()
-        #writing for custom classes only
         for line in lines[15:]:
             f.write(line) 
     print("Succes deleting predefined class label")
@@ -94,6 +92,7 @@ def editing_class_label(folder_path,dir):
             continue
 
 def main():
+    print("EDITING LABEL CLASSES ANNOTATION YOLO FILE")
     #enter folder directory path
     folder_path=str(input("Enter folder path:"))
     try:
