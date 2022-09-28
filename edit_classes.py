@@ -65,7 +65,7 @@ def delete_classes_path(folder_path,dir):
     new_dir=os.listdir(folder_path)
     return new_dir
 
-def editing_class_label(folder_path,dir):
+def editing_class_label(folder_path,dir,nclass):
     #edit label class annotation in every .txt file
     for file in dir:
         file_path=os.path.join(folder_path,file)
@@ -83,7 +83,7 @@ def editing_class_label(folder_path,dir):
                     #classes position in line
                     prev_label_class=line[0:2]
                     #updated new class label
-                    new_label_class=int(prev_label_class)-15
+                    new_label_class=int(prev_label_class)-nclass
                     #updated content with new labeled class
                     f.write(str(new_label_class)+" "+prev_line)
             print(f"SUCCES:EDIT LABEL CLASSES for {file_path} " )
@@ -91,15 +91,22 @@ def editing_class_label(folder_path,dir):
             print('not in .txt format')
             continue
 
+def count_class(fpath):
+    with open(fpath,'r') as f:
+        lines=f.readlines()
+    return len(lines)
+
 def main():
     print("EDITING LABEL CLASSES ANNOTATION YOLO FILE")
     #enter folder directory path
     folder_path=str(input("Enter folder path:"))
+    predefined_class_path='C:/Users/Helmi Agung/labelImg-master/data/predefined_classes.txt'
+    class_total=count_class(predefined_class_path)
     try:
         folder_dir=os.listdir(folder_path)
         size_before=len(folder_dir)
         folder_dir=delete_classes_path(folder_path,folder_dir)
-        editing_class_label(folder_path,folder_dir)
+        editing_class_label(folder_path,folder_dir,class_total)
         print(f'old size directory:{size_before}')
         print(f"new size directory:{len(folder_dir)}")
     except Exception as e:
