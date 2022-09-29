@@ -78,14 +78,16 @@ def editing_class_label(folder_path,dir,nclass):
                 f.truncate()
                 #accessing every text line 
                 for line in lines:
-                    #text position after class label
-                    prev_line=line[3:]
+                    #split text 
+                    line_split=line.split(" ")
                     #classes position in line
-                    prev_label_class=line[0:2]
+                    prev_label_class=line_split[0]
                     #updated new class label
                     new_label_class=int(prev_label_class)-nclass
-                    #updated content with new labeled class
-                    f.write(str(new_label_class)+" "+prev_line)
+                    #change label class in index 0
+                    line_split[0]=str(new_label_class)
+                    #update content file
+                    f.write(" ".join(line_split))
             print(f"SUCCES:EDIT LABEL CLASSES for {file_path} " )
         else:
             print('not in .txt format')
