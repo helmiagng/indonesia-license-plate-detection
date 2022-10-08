@@ -1,2 +1,2 @@
 # indonesia-license-plate-detection
-![plot](C:/project/license plat detection/yolov4-custom-functions/data/images/result_detect_ocr.png)
+![result_detect_ocr](https://user-images.githubusercontent.com/68595414/194709760-4c7edb7e-7dd6-4758-bb43-b5d49890ecb9.png)
