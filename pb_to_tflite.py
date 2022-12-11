@@ -1,6 +1,12 @@
 import tensorflow as tf
 from absl import app,flags,logging
 from absl.flags import FLAGS
+import numpy as np
+import core.utils as utils
+import os
+import core.config as cfg
+import cv2
+
 
 flags.DEFINE_string('weights','./checkpoints/mobilenet_ssd_char_seg','path to weights file')
 flags.DEFINE_string('output','./checkpoints/mobilenet_ssd_char_seg.tflite','path to output')
@@ -48,8 +54,24 @@ def save_tflite():
     logging.info('model saved to : {}'.format(FLAGS.output))
 
 
+def demo():
+    interpreter=tf.lite.Interpreter(FLAGS.output)
+    interpreter.allocate_tensors()
+    logging.info('tflite model loaded')
+    
+    #get input detail
+    input_details=interpreter.get_input_details()
+    #get output detail
+    output_details=interpreter.get_output_details()
+
+    #input shape
+    input_shape=input_details[0]['shape']
+    input_data=np.array()
+
+
 def main():
     save_tflite()
+    demo()
 
 
 if __name__=='__main__':
