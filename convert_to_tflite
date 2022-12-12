@@ -1,0 +1,55 @@
+from absl import app,flags,logging
+from absl.flags import FLAGS
+import tensorflow as tf
+import numpy as np
+
+flags.DEFINE_string('weights','./checkpoints/','path to weights file')
+flags.DEFINE_string('output','./checkpoints/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.tflite','path to output')
+
+def convert_to_tflite():
+  converter=tf.lite.TFLiteConverter.from_saved_model(FLAGS.weights)
+  converter.optimizations = [tf.lite.Optimize.DEFAULT]
+  converter.experimental_new_converter=True
+  converter.target_spec.supported_ops=[tf.lite.OpsSet.TFLITE_BUILTINS,tf.lite.OpsSet.SELECT_TF_OPS]
+
+
+  tflite_model=converter.convert()
+  #similar functions with python file i/o objects
+  with tf.io.gfile.GFile(FLAGS.output,'wb') as f:
+    f.write(tflite_model)
+
+
+def demo():
+  #loading tf lite model
+  interpreter=tf.lite.Interpreter(FLAGS.output)
+  #allocate tensor
+  interpreter.allocate_tensors()
+  logging.info("LOADING TF LITE MODEL")
+  #get input detail
+  input_details=interpreter.get_input_details()
+  print(input_details)
+  #get output detail
+  output_details=interpreter.get_output_details()
+  print(output_details)
+
+  #get input shape
+  input_shape=input_details[0]['shape']
+
+  #input data randomly
+  input_data=np.array(np.random.random_sample(input_shape),dtype=np.float32)
+
+  interpreter.set_tensor(input_details[0]['index'],input_data)
+  interpreter.invoke()
+  output_data=[interpreter.get_tensor(output_details[i]['index']) for i in range(len(output_details))]
+  print(output_data)
+
+
+def main(_argv):
+  convert_to_tflite()
+  demo()
+
+if __name__=='__main__':
+  try:
+    app.run(main)
+  except SystemExit:
+    pass
